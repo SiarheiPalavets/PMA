@@ -1,0 +1,32 @@
+<div class="task-modal-container" *ngIf="data$ | async as data">
+  <div class="task-modal-header">
+
+    <app-inline-form class="task-modal-edit-title-form" [defaultText]="data.task.title" [title]="data.task.title"
+      (handleSubmit)="updateTaskName($event, data.board.owner, data.task.description)"></app-inline-form>
+
+
+    <div class="task-modal-close" (click)="goToBoard()">&#215;</div>
+  </div>
+  <div class="task-modal-body">
+    <div>
+      <form [formGroup]="columnForm" class="column-select-container">
+        <select formControlName="columnId" class="column-select">
+          <option *ngFor="let column of data.columns" [ngValue]="column._id">{{ column.title }}</option>
+        </select>
+        <div class="task-modal-actions-action"
+          (click)="updateTaskName(data.task.title, data.board.owner, data.task.description)">
+          {{ 'TASKS.UPDATE_BTN' | translate }}</div>
+      </form>
+    </div>
+  </div>
+  <div class="task-modal-actions">
+    <div class="task-modal-actions-label">{{ 'TASKS.ACTIONS' | translate }}</div>
+    <div>
+      <div class="task-modal-actions-action">
+        <div class="task-modal-actions-icon" (click)=" deleteTask(data.board._id, data.task.columnId, data.task._id)">
+          {{ 'TASKS.DELETE' | translate }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="task-modal-backdrop"></div>
